@@ -15,6 +15,7 @@ public class UserInfo {
     private String phoneNumber;
     private String city;
     private String country;
+
     private Passport passport;
     private EmployeeInfo employeeInfo;
 

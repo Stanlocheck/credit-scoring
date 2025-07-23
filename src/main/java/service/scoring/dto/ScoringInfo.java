@@ -11,7 +11,7 @@ import service.scoring.dto.pdn.PdnResponse;
 @Getter
 @Setter
 public class ScoringInfo {
-    private CreditRequest creditRequest;
+    private Long creditId;
     private AntifraudResult antifraudResult;
     private BkiResult bkiResult;
     private FsspCheckResponse fsspCheckResponse;

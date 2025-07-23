@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Setter
 public class CreditRequest {
 
-    private UserInfo userInfo;
+    //private UserInfo userInfo;
 
     private Integer creditAmount;
     private String type;
