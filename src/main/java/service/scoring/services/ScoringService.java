@@ -10,16 +10,13 @@ import service.scoring.dto.mobile.MobileOperatorResponse;
 import service.scoring.dto.pdn.PdnResponse;
 import service.scoring.entities.Credit;
 import service.scoring.entities.Status;
-import service.scoring.entities.User;
 import service.scoring.repositories.CreditRepository;
-import service.scoring.services.mapping.CreditMapping;
 import service.scoring.services.mapping.UserMapping;
 
 @Service
 public class ScoringService {
 
     private final CreditRepository creditRepository;
-    private final CreditMapping creditMapping;
     private final UserMapping userMapping;
 
     private final AntifraudRestClient antifraudRestClient;
@@ -31,7 +28,6 @@ public class ScoringService {
 
 
     public ScoringService(CreditRepository creditRepository,
-                          CreditMapping creditMapping,
                           UserMapping userMapping,
                           AntifraudRestClient antifraudRestClient,
                           BeelineRestClient beelineRestClient,
@@ -40,7 +36,6 @@ public class ScoringService {
                           PdnRestClient pdnRestClient,
                           DecisionRestClient decisionRestClient) {
         this.creditRepository = creditRepository;
-        this.creditMapping = creditMapping;
         this.userMapping = userMapping;
         this.antifraudRestClient = antifraudRestClient;
         this.beelineRestClient = beelineRestClient;
@@ -68,16 +63,8 @@ public class ScoringService {
         FsspCheckResponse fsspCheckResponse = fsspRestClient.checkDebt(userInfo).getBody();
         PdnResponse pdnResponse = pdnRestClient.calculatePdn(userInfo).getBody();
 
-        ScoringInfo scoringInfo = new ScoringInfo();
-        scoringInfo.setCreditId(id);
-        scoringInfo.setAntifraudResult(antifraudResult);
-        scoringInfo.setBkiResult(bkiResult);
-        scoringInfo.setFsspCheckResponse(fsspCheckResponse);
-        scoringInfo.setPdnResponse(pdnResponse);
-        scoringInfo.setMobileOperatorResponse(mobileOperatorResponse);
+        ScoringInfo scoringInfo = new ScoringInfo(id, antifraudResult, bkiResult, fsspCheckResponse, mobileOperatorResponse, pdnResponse);
 
-        ScoringResult result = decisionRestClient
-                .getDecision(scoringInfo)
-                .getBody();
+        decisionRestClient.getDecision(scoringInfo);
     }
 }

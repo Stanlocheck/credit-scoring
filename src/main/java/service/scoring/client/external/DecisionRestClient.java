@@ -18,13 +18,13 @@ import service.scoring.dto.pdn.PdnResponse;
 public class DecisionRestClient {
     private final RestTemplate decisionServiceRestTemplate;
 
-    private static final String GET_DECISION_PATH = "/response";
+    private static final String GET_DECISION_PATH = "/result";
 
     public DecisionRestClient(@Qualifier("decisionServiceRestTemplate") RestTemplate restTemplate) {
         this.decisionServiceRestTemplate = restTemplate;
     }
 
-    public ResponseEntity<ScoringResult> getDecision(ScoringInfo scoringInfo) {
-        return decisionServiceRestTemplate.postForEntity(GET_DECISION_PATH, scoringInfo, ScoringResult.class);
+    public void getDecision(ScoringInfo scoringInfo) {
+        decisionServiceRestTemplate.postForEntity(GET_DECISION_PATH, scoringInfo, ScoringResult.class);
     }
 }
